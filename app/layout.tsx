@@ -53,12 +53,6 @@ export const metadata: Metadata = {
     url: 'https://universityofthestreets.com',
     images: [
       {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'The University of the Streets — AI, SMEs & The Future of Nigerian Business by Dr. Daniel Ochi',
-      },
-      {
         url: '/university-of-the-street.png',
         width: 400,
         height: 600,
@@ -76,7 +70,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'The University of the Streets | AI, SMEs & The Future of Nigerian Business',
     description: 'AI-powered strategies for Nigerian SMEs by Dr. Daniel Ochi. Learn business growth, succession planning, and how to build a business that outlives you.',
-    images: ['/og-image.png', '/university-of-the-street.png'],
+    images: ['/university-of-the-street.png'],
   },
   robots: {
     index: true,
@@ -90,8 +84,11 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/icon.svg',
-    apple: '/apple-icon.png',
+    icon: [
+      { url: '/icon.svg?v=2', type: 'image/svg+xml' },
+      { url: '/favicon.ico?v=2' },
+    ],
+    apple: '/apple-icon.png?v=2',
   },
   verification: {
     google: '',
