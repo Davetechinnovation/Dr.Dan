@@ -2,7 +2,7 @@
 
 **AI, SMEs & The Future of Nigerian Business**
 
-A landing/marketing website for Dr. Daniel Ochi's book *"The University of the Streets"* — a practical guide for Nigerian SME owners, startup founders, and business leaders on how to grow, scale, and build a trans-generational enterprise using AI-driven strategies.
+A landing/marketing website for Dr. Daniel Ochi's book *"The University of the Streets"*  a practical guide for Nigerian SME owners, startup founders, and business leaders on how to grow, scale, and build a trans-generational enterprise using AI-driven strategies.
 
 Built with [Next.js 16](https://nextjs.org/) (App Router), React 19, and Tailwind CSS 4.
 
@@ -104,4 +104,4 @@ This project is optimized for [Vercel](https://vercel.com/). Deploy with one cli
 
 ## License
 
-All rights reserved. © 2024 The University of the Streets Legacy.
+All rights reserved. © 2026 The University of the Streets Legacy.
