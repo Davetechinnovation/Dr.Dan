@@ -1,0 +1,119 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Background & Surface */
+  --background: #111413;
+  --surface: #111413;
+  --surface-dim: #111413;
+  --surface-bright: #363a39;
+  --surface-container-lowest: #0b0f0e;
+  --surface-container-low: #191c1b;
+  --surface-container: #1d201f;
+  --surface-container-high: #272b2a;
+  --surface-container-highest: #323534;
+
+  /* Text Colors */
+  --on-surface: #e1e3e1;
+  --on-surface-variant: #c2c8c2;
+  
+  /* Primary Brand Colors */
+  --primary: #0b2418;
+  --primary-light: #b1cdbb;
+  --on-primary: #ffffff;
+  --gold: #e9c176;
+  --gold-dark: #c5a059;
+  --lime: #98da27;
+  --lime-bright: #b2f746;
+  
+  /* Borders */
+  --border: #424844;
+  --outline: #8c928d;
+  --outline-variant: #424844;
+  
+  /* Chart Colors */
+  --chart-1: #b1cdbb;
+  --chart-2: #e9c176;
+  --chart-3: #98da27;
+  --chart-4: #c5a059;
+  --chart-5: #6ba583;
+  
+  --radius: 0.25rem;
+}
+
+@theme inline {
+  --font-display: var(--font-display);
+  --font-heading: var(--font-heading);
+  --font-sans: 'Poppins', 'Poppins Fallback';
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-primary: var(--primary);
+  --color-primary-light: var(--primary-light);
+  --color-on-primary: var(--on-primary);
+  --color-gold: var(--gold);
+  --color-gold-dark: var(--gold-dark);
+  --color-lime: var(--lime);
+  --color-lime-bright: var(--lime-bright);
+  --color-border: var(--border);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+}
+
+@layer base {
+  * {
+    @apply outline-lime/50;
+  }
+  html {
+    @apply bg-[#111413] scroll-smooth;
+  }
+  body {
+    @apply bg-[#111413] text-[#e1e3e1] font-sans;
+  }
+}
+
+/* Typography Scale */
+@layer components {
+  .display-lg {
+    @apply font-display text-5xl md:text-7xl font-semibold leading-tight tracking-tight;
+  }
+  
+  .headline-lg {
+    @apply font-display text-4xl md:text-5xl font-medium leading-snug;
+  }
+  
+  .headline-md {
+    @apply font-display text-2xl md:text-4xl font-medium leading-snug;
+  }
+  
+  .headline-sm {
+    @apply font-display text-xl md:text-2xl font-medium leading-relaxed;
+  }
+  
+  .body-lg {
+    @apply font-sans text-lg leading-relaxed;
+  }
+  
+  .body-md {
+    @apply font-sans text-base leading-relaxed;
+  }
+  
+  .label-lg {
+    @apply font-sans text-sm font-semibold uppercase tracking-wide;
+  }
+}
