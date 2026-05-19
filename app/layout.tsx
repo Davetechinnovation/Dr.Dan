@@ -112,6 +112,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
+        {/* Paystack Inline Checkout - loaded globally so it's ready on the checkout page */}
+        <script src="https://js.paystack.co/v1/inline.js"></script>
         {/* JSON-LD Structured Data - Book Schema */}
         <script
           type="application/ld+json"
