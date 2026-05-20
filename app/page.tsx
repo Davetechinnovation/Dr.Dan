@@ -59,7 +59,7 @@ export default function Home() {
         <div className="relative z-10 mx-auto max-w-6xl px-6 md:px-12 text-center">
           <div className="inline-block bg-red-900/20 border border-red-500/30 rounded-lg px-4 py-2 mb-6">
             <p className="text-red-400 text-xs md:text-sm font-bold uppercase tracking-wider">
-              🚨 Attention Nigerian Entrepreneurs, SME Owners & Business Leaders 🚨
+              Attention Nigerian Entrepreneurs, SME Owners & Business Leaders
             </p>
           </div>
           
@@ -195,7 +195,7 @@ export default function Home() {
       <section className="bg-[#111413] py-20 md:py-32 px-6 md:px-12">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-xs md:text-sm font-semibold text-[#98da27] uppercase tracking-widest mb-4">💡 What Makes This Book Different</p>
+            <p className="text-xs md:text-sm font-semibold text-[#98da27] uppercase tracking-widest mb-4">What Makes This Book Different</p>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
               What You Will Gain From This Book
             </h2>
@@ -343,9 +343,6 @@ export default function Home() {
       <section className="bg-[#0a1410] py-20 md:py-32 px-6 md:px-12">
         <div className="max-w-6xl mx-auto">
           <div className="bg-linear-to-br from-[#0f2415] to-[#1a3a2e] rounded-2xl p-12 md:p-16 text-center border border-[#e9c176]/10">
-            <div className="inline-block mb-6">
-              <span className="text-5xl">🎯</span>
-            </div>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-8">
               This Book Is For You If You Are:
             </h2>
@@ -478,7 +475,7 @@ export default function Home() {
 
             {/* Contact - WhatsApp */}
             <div className="mt-8 p-6 bg-[#111413] border border-[#424844] rounded-lg">
-              <p className="text-sm text-[#c2c8c2] mb-2">💬 Order directly on WhatsApp:</p>
+              <p className="text-sm text-[#c2c8c2] mb-2">Order directly on WhatsApp:</p>
               <a
                 href={`https://wa.me/2348037006559?text=${encodeURIComponent("Hi Dr. Daniel Ochi! I visited The University of the Streets website and I'm interested in ordering the book. I have a few questions before I purchase. Please could you get back to me?")}`}
                 target="_blank"
@@ -498,9 +495,6 @@ export default function Home() {
       {/* Final Word */}
       <section className="bg-linear-to-br from-[#0f2415] to-[#111413] py-20 md:py-32 px-6 md:px-12">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="w-16 h-16 rounded-full bg-[#98da27]/10 flex items-center justify-center mx-auto mb-8">
-            <span className="text-3xl">⚠️</span>
-          </div>
           <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-6">
             Final Word
           </h2>
@@ -515,9 +509,9 @@ export default function Home() {
           </p>
           <div className="border-t-2 border-[#e9c176]/30 pt-8 max-w-lg mx-auto">
             <p className="text-lg text-[#c2c8c2] italic">
-              👉 Don't just run a business.<br />
-              👉 Build a <span className="text-[#e9c176] font-bold">SYSTEM</span>.<br />
-              👉 Build a <span className="text-[#e9c176] font-bold">LEGACY</span>.
+              Don't just run a business.<br />
+              Build a <span className="text-[#e9c176] font-bold">SYSTEM</span>.<br />
+              Build a <span className="text-[#e9c176] font-bold">LEGACY</span>.
             </p>
           </div>
           <div className="mt-10">

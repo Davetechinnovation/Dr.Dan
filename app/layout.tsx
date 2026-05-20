@@ -84,11 +84,8 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [
-      { url: '/icon.svg?v=2', type: 'image/svg+xml' },
-      { url: '/favicon.ico?v=2' },
-    ],
-    apple: '/apple-icon.png?v=2',
+    icon: '/icon.svg',
+    apple: '/icon.svg',
   },
   verification: {
     google: '',
