@@ -196,8 +196,8 @@ function CheckoutContent() {
             {/* Product Info with Quantity */}
             <div className="bg-[#111413] border border-[#424844] rounded-lg p-6 mb-8">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-[#0a2415] to-[#1a3a2e] rounded-lg flex items-center justify-center flex-shrink-0 border border-[#e9c176]">
-                  <span className="font-display text-2xl font-bold bg-gradient-to-r from-[#e9c176] to-[#98da27] bg-clip-text text-transparent">U</span>
+                <div className="w-16 h-16 bg-linear-to-br from-[#0a2415] to-[#1a3a2e] rounded-lg flex items-center justify-center shrink-0 border border-[#e9c176]">
+                  <span className="font-display text-2xl font-bold bg-linear-to-r from-[#e9c176] to-[#98da27] bg-clip-text text-transparent">U</span>
                 </div>
                 <div className="flex-1">
                   <h2 className="font-display text-lg font-medium text-white mb-1">{format === 'hardcopy' ? 'Hardcopy' : 'Softcopy'} Edition</h2>
@@ -302,8 +302,8 @@ function CheckoutContent() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
           <div className="bg-[#1d201f] border-2 border-[#e9c176]/50 rounded-lg p-8 md:p-10 max-w-md w-full text-center shadow-2xl">
             {/* U Icon */}
-            <div className="w-16 h-16 bg-gradient-to-br from-[#0a2415] to-[#1a3a2e] rounded-lg flex items-center justify-center mx-auto mb-6 border border-[#e9c176]">
-              <span className="font-display text-2xl font-bold bg-gradient-to-r from-[#e9c176] to-[#98da27] bg-clip-text text-transparent">U</span>
+            <div className="w-16 h-16 bg-linear-to-br from-[#0a2415] to-[#1a3a2e] rounded-lg flex items-center justify-center mx-auto mb-6 border border-[#e9c176]">
+              <span className="font-display text-2xl font-bold bg-linear-to-r from-[#e9c176] to-[#98da27] bg-clip-text text-transparent">U</span>
             </div>
             
             <h2 className="font-display text-3xl font-medium text-white mb-2">
