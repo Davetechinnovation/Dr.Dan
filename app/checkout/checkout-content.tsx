@@ -8,19 +8,23 @@ import Footer from '@/components/footer'
 
 declare global {
   interface Window {
-    PaystackPop: {
-      setup(config: {
-        key: string
-        email: string
+    MonnifySDK: {
+      initialize(config: {
         amount: number
-        ref: string
-        currency?: string
+        currency: string
+        reference: string
+        customerName: string
+        customerEmail: string
+        apiKey: string
+        contractCode: string
+        paymentDescription: string
+        isRecurring: boolean
         metadata?: Record<string, unknown>
-        callback: (response: { reference: string; trxref: string }) => void
+        onLoadStart: () => void
+        onSuccess: (response: { transactionReference: string; paymentReference: string }) => void
+        onError: (error: { errorDescription: string }) => void
         onClose: () => void
-      }): {
-        openIframe(): void
-      }
+      }): void
     }
   }
 }
@@ -37,25 +41,27 @@ function CheckoutContent() {
   const searchParams = useSearchParams()
   const [quantity, setQuantity] = useState(1)
   const [format, setFormat] = useState<'hardcopy' | 'softcopy'>('hardcopy')
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
   const [showWhatsAppConfirm, setShowWhatsAppConfirm] = useState(false)
-  const [paystackReady, setPaystackReady] = useState(false)
+  const [monnifyReady, setMonnifyReady] = useState(false)
 
-  const paystackKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY!
+  const monnifyApiKey = process.env.NEXT_PUBLIC_MONNIFY_API_KEY!
+  const monnifyContractCode = process.env.NEXT_PUBLIC_MONNIFY_CONTRACT_CODE!
   const PHONE_NUMBER = '2348037006559'
 
-  // Load Paystack script
+  // Load Monnify SDK script
   useEffect(() => {
-    if (typeof window.PaystackPop !== 'undefined') {
-      setPaystackReady(true)
+    if (typeof window.MonnifySDK !== 'undefined') {
+      setMonnifyReady(true)
       return
     }
     const script = document.createElement('script')
-    script.src = 'https://js.paystack.co/v1/inline.js'
+    script.src = 'https://sdk.monnify.com/plugin/monnify.js'
     script.async = true
-    script.onload = () => setPaystackReady(true)
-    script.onerror = () => console.error('Failed to load Paystack script')
+    script.onload = () => setMonnifyReady(true)
+    script.onerror = () => console.error('Failed to load Monnify SDK')
     document.head.appendChild(script)
   }, [])
 
@@ -72,7 +78,6 @@ function CheckoutContent() {
 
   const pricePerCopy = format === 'hardcopy' ? 10000 : 7500
   const totalNaira = quantity * pricePerCopy
-  const totalUsdNaira = (quantity * (format === 'hardcopy' ? 35 : 25)).toFixed(2)
 
   const generateReference = () => {
     const timestamp = Date.now().toString(36).toUpperCase()
@@ -80,8 +85,8 @@ function CheckoutContent() {
     return `SIRDAN-${timestamp}-${random}`
   }
 
-  const openPaystack = () => {
-    if (!paystackReady) {
+  const openMonnify = () => {
+    if (!monnifyReady) {
       setIsProcessing(false)
       return
     }
@@ -90,19 +95,27 @@ function CheckoutContent() {
     const reference = generateReference()
 
     try {
-      const handler = window.PaystackPop.setup({
-        key: paystackKey,
-        email,
-        amount: totalNaira * 100,
-        ref: reference,
+      window.MonnifySDK.initialize({
+        amount: totalNaira,
         currency: 'NGN',
+        reference,
+        customerName: name,
+        customerEmail: email,
+        apiKey: monnifyApiKey,
+        contractCode: monnifyContractCode,
+        paymentDescription: `The University of the Streets - ${format === 'hardcopy' ? 'Hardcopy' : 'Softcopy'} x${quantity}`,
+        isRecurring: false,
         metadata: { quantity, format },
-        callback: (response: { reference: string }) => {
+        onLoadStart: () => {
+          setIsProcessing(true)
+        },
+        onSuccess: (response) => {
           fetch('/api/verify-payment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              reference: response.reference,
+              transactionReference: response.transactionReference,
+              paymentReference: response.paymentReference,
               email,
               quantity,
               format,
@@ -112,14 +125,16 @@ function CheckoutContent() {
           setIsProcessing(false)
           router.push('/download')
         },
+        onError: (error) => {
+          console.error('Monnify error:', error)
+          setIsProcessing(false)
+        },
         onClose: () => {
           setIsProcessing(false)
         },
       })
-
-      handler.openIframe()
     } catch (err) {
-      console.error('Paystack error:', err)
+      console.error('Monnify SDK error:', err)
       setIsProcessing(false)
     }
   }
@@ -139,8 +154,8 @@ function CheckoutContent() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!email) return
-    openPaystack()
+    if (!email || !name) return
+    openMonnify()
   }
 
   return (
@@ -206,7 +221,7 @@ function CheckoutContent() {
               </div>
 
               {/* Quantity Selector */}
-              <div className="border-t border-[#424844] pt-4 flex flex-col items-center justify-center ">
+              <div className="border-t border-[#424844] pt-4 flex flex-col items-center justify-center">
                 <p className="text-sm font-semibold text-[#e9c176] uppercase tracking-widest mb-4">Quantity</p>
                 <div className="flex items-center justify-center gap-8 flex-wrap">
                   <div className="flex items-center gap-4">
@@ -227,7 +242,6 @@ function CheckoutContent() {
                   <div className="text-center">
                     <p className="text-sm text-[#c2c8c2]">Total</p>
                     <p className="text-2xl font-bold text-[#98da27]">₦{totalNaira.toLocaleString()}</p>
-                    <p className="text-xs text-[#c2c8c2]">≈ ${totalUsdNaira} USD</p>
                   </div>
                 </div>
               </div>
@@ -237,10 +251,18 @@ function CheckoutContent() {
             <form onSubmit={format === 'softcopy' ? handleSubmit : (e) => { e.preventDefault(); handleHardcopyOrder() }} className="space-y-8">
               {/* Contact Information - only for softcopy */}
               {format === 'softcopy' && (
-                <div>
+                <div className="space-y-4">
                   <label className="block text-sm font-semibold text-[#e9c176] uppercase tracking-widest mb-4">
                     Contact Information
                   </label>
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    className="w-full bg-transparent border-b border-[#424844] text-white placeholder-[#8c928d] py-3 focus:outline-none focus:border-[#98da27] transition"
+                  />
                   <input
                     type="email"
                     placeholder="Email Address"
@@ -265,7 +287,7 @@ function CheckoutContent() {
                         <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"></circle>
                         <path strokeLinecap="round" d="M12 2a10 10 0 010 20"></path>
                       </svg>
-                      Opening Paystack...
+                      Opening Monnify...
                     </>
                   ) : (
                     <>
@@ -290,7 +312,7 @@ function CheckoutContent() {
 
               {/* Security Info - only show for softcopy */}
               {format === 'softcopy' && (
-                <p className="text-center text-sm text-[#8c928d]">Secured by Paystack</p>
+                <p className="text-center text-sm text-[#8c928d]">Secured by Monnify</p>
               )}
             </form>
           </div>
