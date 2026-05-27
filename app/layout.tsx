@@ -16,8 +16,10 @@ const poppins = Poppins({
   variable: '--font-sans'
 });
 
+const siteUrl = 'https://drdanielochi.com'
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://universityofthestreets.com'),
+  metadataBase: new URL(siteUrl),
   title: {
     default: 'The University of the Streets | AI, SMEs & The Future of Nigerian Business by Dr. Daniel Ochi',
     template: '%s | The University of the Streets',
@@ -41,7 +43,7 @@ export const metadata: Metadata = {
     'business strategy Africa',
     'wealth creation Nigeria',
   ],
-  authors: [{ name: 'Dr. Daniel Ochi', url: 'https://universityofthestreets.com' }],
+  authors: [{ name: 'Dr. Daniel Ochi', url: siteUrl }],
   creator: 'Dr. Daniel Ochi',
   publisher: 'BSSP Consulting Ltd',
   openGraph: {
@@ -50,18 +52,18 @@ export const metadata: Metadata = {
     siteName: 'The University of the Streets',
     title: 'The University of the Streets | AI, SMEs & The Future of Nigerian Business by Dr. Daniel Ochi',
     description: 'The University of the Streets by Dr. Daniel Ochi — AI-powered strategies for Nigerian SMEs. Learn business growth, succession planning, digital entrepreneurship, and how to build a business that outlives you.',
-    url: 'https://universityofthestreets.com',
+    url: siteUrl,
     images: [
       {
-        url: '/university-of-the-street.png',
-        width: 400,
-        height: 600,
+        url: '/university-of-the-street.webp',
+        width: 1200,
+        height: 1571,
         alt: 'The University of the Streets Book Cover — AI, SMEs & The Future of Nigerian Business',
       },
       {
-        url: '/sirdan.jpeg',
-        width: 320,
-        height: 320,
+        url: '/sirdan.webp',
+        width: 400,
+        height: 410,
         alt: 'Dr. Daniel Ochi — Author, Entrepreneur, Business Strategist',
       },
     ],
@@ -70,7 +72,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'The University of the Streets | AI, SMEs & The Future of Nigerian Business',
     description: 'AI-powered strategies for Nigerian SMEs by Dr. Daniel Ochi. Learn business growth, succession planning, and how to build a business that outlives you.',
-    images: ['/university-of-the-street.png'],
+    images: ['/university-of-the-street.webp'],
   },
   robots: {
     index: true,
@@ -96,12 +98,16 @@ export const metadata: Metadata = {
   },
   verification: {
     google: '',
-    // Add your Google Search Console verification code here
+    // Add your Google Search Console verification meta tag content here
   },
   alternates: {
-    canonical: 'https://universityofthestreets.com',
+    canonical: siteUrl,
   },
   category: 'business',
+  other: {
+    'geo.region': 'NG',
+    'geo.placename': 'Nigeria',
+  },
 }
 
 export default function RootLayout({
@@ -115,9 +121,33 @@ export default function RootLayout({
         {/* Preconnect for performance (Core Web Vitals) */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://js.paystack.co" />
+        <link rel="preconnect" href="https://js.paystack.co" />
         
         {/* Paystack Inline Checkout - loaded globally so it's ready on the checkout page */}
-        <script src="https://js.paystack.co/v1/inline.js"></script>
+        <script src="https://js.paystack.co/v1/inline.js" />
+        
+        {/* JSON-LD Structured Data - WebSite Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "The University of the Streets",
+              "alternateName": "Dr. Daniel Ochi",
+              "url": siteUrl,
+              "description": "AI-powered strategies for Nigerian SMEs. Learn business growth, succession planning, digital entrepreneurship, and how to build a business that outlives you.",
+              "author": {
+                "@type": "Person",
+                "name": "Dr. Daniel Ochi"
+              },
+              "inLanguage": "en-NG",
+              "isFamilyFriendly": true
+            })
+          }}
+        />
+
         {/* JSON-LD Structured Data - Book Schema */}
         <script
           type="application/ld+json"
@@ -126,24 +156,23 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Book",
               "name": "The University of the Streets: AI, SMEs & The Future of Nigerian Business",
-              "alternateName": "The University of the Streets",
               "author": {
                 "@type": "Person",
                 "name": "Dr. Daniel Ochi",
-                "url": "https://universityofthestreets.com",
+                "url": siteUrl,
                 "sameAs": [
-                  "https://universityofthestreets.com"
+                  siteUrl
                 ]
               },
               "description": "AI-powered strategies for Nigerian SMEs. Learn business growth, succession planning, digital entrepreneurship, and how to build a business that outlives you through practical, street-smart wisdom.",
               "isbn": "",
-              "image": "https://universityofthestreets.com/university-of-the-street.png",
+              "image": `${siteUrl}/university-of-the-street.webp`,
               "offers": {
                 "@type": "Offer",
                 "price": "7500",
                 "priceCurrency": "NGN",
                 "availability": "https://schema.org/InStock",
-                "url": "https://universityofthestreets.com/checkout",
+                "url": `${siteUrl}/checkout`,
                 "priceValidUntil": "2027-12-31"
               },
               "publisher": {
@@ -151,12 +180,13 @@ export default function RootLayout({
                 "name": "BSSP Consulting Ltd"
               },
               "genre": ["Business", "Entrepreneurship", "AI", "SME Development"],
-              "inLanguage": "en-US"
+              "inLanguage": "en-US",
+              "numberOfPages": ""
             })
           }}
         />
 
-        {/* JSON-LD Structured Data - Person Schema (Dr. Daniel Ochi) */}
+        {/* JSON-LD Structured Data - Person Schema (Dr. Daniel Ochi) with enhanced sameAs */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -169,8 +199,12 @@ export default function RootLayout({
               "honorificPrefix": "Dr.",
               "jobTitle": "Entrepreneur, Business Strategist & Enterprise Development Expert",
               "description": "Dr. Daniel Ochi is an entrepreneur, business strategist, and internationally oriented thought leader in entrepreneurship development, SME growth, business sustainability, and trans-generational enterprise development. Director of BSSP Consulting Ltd and author of The University of the Streets.",
-              "image": "https://universityofthestreets.com/sirdan.jpeg",
-              "url": "https://universityofthestreets.com",
+              "image": `${siteUrl}/sirdan.webp`,
+              "url": siteUrl,
+              "sameAs": [
+                `${siteUrl}`,
+                "https://wa.me/2348037006559"
+              ],
               "knowsAbout": [
                 "Entrepreneurship",
                 "SME Growth",
@@ -190,7 +224,8 @@ export default function RootLayout({
                 "name": "BSSP Consulting Ltd"
               },
               "alumniOf": "",
-              "nationality": "Nigerian"
+              "nationality": "Nigerian",
+              "telephone": "+2348037006559"
             })
           }}
         />
@@ -202,11 +237,12 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
+              "@id": `${siteUrl}/#organization`,
               "name": "BSSP Consulting Ltd",
               "alternateName": "BSSP Consulting",
               "description": "A business advisory and enterprise development firm focused on sustainability, succession planning, executive education, and SME transformation across emerging markets.",
-              "url": "https://universityofthestreets.com",
-              "logo": "https://universityofthestreets.com/placeholder-logo.png",
+              "url": siteUrl,
+              "logo": `${siteUrl}/placeholder-logo.png`,
               "foundingDate": "",
               "founder": {
                 "@type": "Person",
@@ -219,7 +255,8 @@ export default function RootLayout({
               "contactPoint": {
                 "@type": "ContactPoint",
                 "telephone": "+2348037006559",
-                "contactType": "customer service"
+                "contactType": "customer service",
+                "availableLanguage": ["English"]
               }
             })
           }}
@@ -234,7 +271,7 @@ export default function RootLayout({
               "@type": "Product",
               "name": "The University of the Streets",
               "description": "AI, SMEs & The Future of Nigerian Business. A practical guide integrating street-smart entrepreneurial wisdom with AI and modern business strategies.",
-              "image": "https://universityofthestreets.com/university-of-the-street.png",
+              "image": `${siteUrl}/university-of-the-street.webp`,
               "brand": {
                 "@type": "Brand",
                 "name": "BSSP Consulting Ltd"
@@ -246,7 +283,7 @@ export default function RootLayout({
                   "price": "10000",
                   "priceCurrency": "NGN",
                   "availability": "https://schema.org/InStock",
-                  "url": "https://universityofthestreets.com/checkout",
+                  "url": `${siteUrl}/checkout`,
                   "description": "Physical hardcopy edition of The University of the Streets"
                 },
                 {
@@ -255,7 +292,7 @@ export default function RootLayout({
                   "price": "7500",
                   "priceCurrency": "NGN",
                   "availability": "https://schema.org/InStock",
-                  "url": "https://universityofthestreets.com/checkout",
+                  "url": `${siteUrl}/checkout`,
                   "description": "Digital softcopy edition of The University of the Streets"
                 }
               ],
@@ -266,6 +303,90 @@ export default function RootLayout({
                 "ratingCount": "1",
                 "reviewCount": "1"
               }
+            })
+          }}
+        />
+
+        {/* JSON-LD Structured Data - BreadcrumbList */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": siteUrl
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Book",
+                  "item": `${siteUrl}/book`
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": "Checkout",
+                  "item": `${siteUrl}/checkout`
+                }
+              ]
+            })
+          }}
+        />
+
+        {/* JSON-LD Structured Data - FAQPage based on page content */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Are you running a business that depends heavily on your daily presence to survive?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The University of the Streets teaches you how to build systems that run without you, delegate effectively, and turn your hustle into a structured, scalable enterprise that outlives you."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How can AI help my Nigerian SME business?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The book covers simple ways to use AI tools in your business, how to automate marketing, customer service, and operations, and how to compete with bigger companies using smart technology."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is the price of The University of the Streets?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The hardcopy edition is ₦10,000 per copy and the softcopy (digital) edition is ₦7,500 per copy. Bulk purchases are available."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Who is Dr. Daniel Ochi?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Dr. Daniel Ochi is an entrepreneur, business strategist, and thought leader in entrepreneurship development and SME growth. He holds a PhD in Data Science and is the Director of BSSP Consulting Ltd, author of The University of the Streets."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Who is this book for?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "This book is for startup founders trying to grow, SME owners struggling to scale, business leaders thinking long-term, and students or aspiring entrepreneurs who want real, practical knowledge about Nigerian business."
+                  }
+                }
+              ]
             })
           }}
         />
