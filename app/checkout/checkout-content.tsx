@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, Suspense, useCallback } from 'react'
 import { BookOpen, Download } from 'lucide-react'
 import Footer from '@/components/footer'
 
@@ -40,7 +40,9 @@ function CheckoutContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [quantity, setQuantity] = useState(1)
-  const [format, setFormat] = useState<'hardcopy' | 'softcopy'>('hardcopy')
+  // Start with null until URL params are read, then set properly
+  const [format, setFormat] = useState<'hardcopy' | 'softcopy' | null>(null)
+  const [paramsLoaded, setParamsLoaded] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
@@ -65,18 +67,28 @@ function CheckoutContent() {
     document.head.appendChild(script)
   }, [])
 
-  // Read format & quantity from URL params
+  // Read format & quantity from URL params - this runs before render
   useEffect(() => {
     const f = searchParams.get('format')
     const q = searchParams.get('quantity')
-    if (f === 'hardcopy' || f === 'softcopy') setFormat(f)
+    
+    let resolvedFormat: 'hardcopy' | 'softcopy' = 'hardcopy'
+    if (f === 'hardcopy' || f === 'softcopy') {
+      resolvedFormat = f
+    }
+    setFormat(resolvedFormat)
+
     if (q) {
       const parsed = parseInt(q, 10)
-      if (!isNaN(parsed) && parsed >= 1 && parsed <= 99) setQuantity(parsed)
+      if (!isNaN(parsed) && parsed >= 1 && parsed <= 99) {
+        setQuantity(parsed)
+      }
     }
+
+    setParamsLoaded(true)
   }, [searchParams])
 
-  const pricePerCopy = format === 'hardcopy' ? 10000 : 7500
+  const pricePerCopy = format === 'hardcopy' ? 10000 : format === 'softcopy' ? 7500 : 0
   const totalNaira = quantity * pricePerCopy
 
   const generateReference = () => {
@@ -85,11 +97,8 @@ function CheckoutContent() {
     return `SIRDAN-${timestamp}-${random}`
   }
 
-  const openMonnify = () => {
-    if (!monnifyReady) {
-      setIsProcessing(false)
-      return
-    }
+  const openMonnify = useCallback(() => {
+    if (!monnifyReady || !format) return
 
     setIsProcessing(true)
     const reference = generateReference()
@@ -137,7 +146,7 @@ function CheckoutContent() {
       console.error('Monnify SDK error:', err)
       setIsProcessing(false)
     }
-  }
+  }, [monnifyReady, format, name, email, quantity, totalNaira, monnifyApiKey, monnifyContractCode, router])
 
   const handleWhatsAppRedirect = () => {
     const greeting = getGreeting()
@@ -154,12 +163,29 @@ function CheckoutContent() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!email || !name) return
+    if (!email || !name || !format) return
     openMonnify()
+  }
+
+  // Show a minimal loading state until URL params are parsed
+  if (!paramsLoaded || !format) {
+    return (
+      <div className="min-h-screen bg-[#111413] flex items-center justify-center">
+        <p className="text-[#c2c8c2]">Loading...</p>
+      </div>
+    )
   }
 
   return (
     <div className="min-h-screen bg-[#111413] flex flex-col">
+      {/* Override Monnify's default gray backdrop with transparent blur */}
+      <style jsx global>{`
+        .monnify-iframe-modal-overlay {
+          background: transparent !important;
+          backdrop-filter: blur(4px) !important;
+        }
+      `}</style>
+
       <div className="flex-1 py-12 md:py-20 px-6 md:px-12">
         <div className="max-w-2xl mx-auto">
           {/* Back Link */}
