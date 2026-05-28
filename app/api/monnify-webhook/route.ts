@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server'
 
+const MONNIFY_BASE_URL = process.env.NEXT_PUBLIC_MONNIFY_API_KEY?.startsWith('MK_TEST')
+  ? 'https://sandbox.monnify.com'
+  : 'https://api.monnify.com'
+
 /**
  * Monnify webhook handler — called by Monnify when payment status changes.
  * 

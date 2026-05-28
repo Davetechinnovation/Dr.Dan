@@ -64,7 +64,7 @@ export const metadata: Metadata = {
         url: '/sirdan.webp',
         width: 400,
         height: 410,
-        alt: 'Dr. Daniel Ochi — Author, Entrepreneur, Business Strategist',
+        alt: 'Dr. Daniel Ochi — AI, SME, Business Sustainability & Succession Planning Specialist',
       },
     ],
   },
@@ -192,7 +192,7 @@ export default function RootLayout({
               "givenName": "Daniel",
               "familyName": "Ochi",
               "honorificPrefix": "Dr.",
-              "jobTitle": "Entrepreneur, Business Strategist & Enterprise Development Expert",
+              "jobTitle": "AI, SME, Business Sustainability & Succession Planning Specialist",
               "description": "Dr. Daniel Ochi is an entrepreneur, business strategist, and internationally oriented thought leader in entrepreneurship development, SME growth, business sustainability, and trans-generational enterprise development. Director of BSSP Consulting Ltd and author of The University of the Streets.",
               "image": `${siteUrl}/sirdan.webp`,
               "url": siteUrl,
@@ -279,7 +279,19 @@ export default function RootLayout({
                   "priceCurrency": "NGN",
                   "availability": "https://schema.org/InStock",
                   "url": `${siteUrl}/checkout`,
-                  "description": "Physical hardcopy edition of The University of the Streets"
+                  "description": "Physical hardcopy edition of The University of the Streets",
+                  "shippingDetails": {
+                    "@type": "OfferShippingDetails",
+                    "shippingDestination": {
+                      "@type": "DefinedRegion",
+                      "addressCountry": "NG"
+                    }
+                  },
+                  "hasMerchantReturnPolicy": {
+                    "@type": "MerchantReturnPolicy",
+                    "applicableCountry": "NG",
+                    "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+                  }
                 },
                 {
                   "@type": "Offer",
@@ -288,7 +300,19 @@ export default function RootLayout({
                   "priceCurrency": "NGN",
                   "availability": "https://schema.org/InStock",
                   "url": `${siteUrl}/checkout`,
-                  "description": "Digital softcopy edition of The University of the Streets"
+                  "description": "Digital softcopy edition of The University of the Streets",
+                  "shippingDetails": {
+                    "@type": "OfferShippingDetails",
+                    "shippingDestination": {
+                      "@type": "DefinedRegion",
+                      "addressCountry": "NG"
+                    }
+                  },
+                  "hasMerchantReturnPolicy": {
+                    "@type": "MerchantReturnPolicy",
+                    "applicableCountry": "NG",
+                    "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+                  }
                 }
               ],
               "aggregateRating": {
@@ -370,7 +394,7 @@ export default function RootLayout({
                   "name": "Who is Dr. Daniel Ochi?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Dr. Daniel Ochi is an entrepreneur, business strategist, and thought leader in entrepreneurship development and SME growth. He holds a PhD in Data Science and is the Director of BSSP Consulting Ltd, author of The University of the Streets."
+                    "text": "Dr. Daniel Ochi is an entrepreneur, business sustainability and succession planning specialist, and thought leader in entrepreneurship development and SME growth. He holds a PhD in Entrepreneurship and Business Management and is the Director of BSSP Consulting Ltd, author of The University of the Streets."
                   }
                 },
                 {

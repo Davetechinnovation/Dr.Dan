@@ -92,7 +92,7 @@ export default function HomeContent() {
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
               Dr. Daniel Ochi
             </h2>
-            <p className="text-lg text-[#e9c176] font-semibold">PhD in Data Science | AI & SME Strategist</p>
+            <p className="text-lg text-[#e9c176] font-semibold">PhD in Entrepreneurship & Business Management | AI, SME, Business Sustainability & Succession Planning Specialist</p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">

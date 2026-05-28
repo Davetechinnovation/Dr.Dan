@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server'
 
 const MONNIFY_API_KEY = process.env.NEXT_PUBLIC_MONNIFY_API_KEY
 const MONNIFY_SECRET_KEY = process.env.MONNIFY_SECRET_KEY
-const MONNIFY_BASE_URL = process.env.NODE_ENV === 'production'
-  ? 'https://api.monnify.com'
-  : 'https://sandbox.monnify.com'
+const MONNIFY_BASE_URL = process.env.NEXT_PUBLIC_MONNIFY_API_KEY?.startsWith('MK_TEST')
+  ? 'https://sandbox.monnify.com'
+  : 'https://api.monnify.com'
 
 async function getAccessToken(): Promise<string> {
   const credentials = Buffer.from(`${MONNIFY_API_KEY}:${MONNIFY_SECRET_KEY}`).toString('base64')
