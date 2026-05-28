@@ -478,14 +478,14 @@ function CheckoutContent() {
 
                   {/* Timer */}
                   <div className="bg-[#111413] border border-[#424844] rounded-lg p-4 mb-5">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Clock className={`w-4 h-4 ${timeLeft < 5 * 60 * 1000 ? 'text-red-400' : 'text-[#e9c176]'}`} />
-                        <span className={`text-sm font-semibold ${timeLeft < 5 * 60 * 1000 ? 'text-red-400' : 'text-[#e9c176]'}`}>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <Clock className={`w-4 h-4 shrink-0 ${timeLeft < 5 * 60 * 1000 ? 'text-red-400' : 'text-[#e9c176]'}`} />
+                        <span className={`text-xs md:text-sm font-semibold truncate ${timeLeft < 5 * 60 * 1000 ? 'text-red-400' : 'text-[#e9c176]'}`}>
                           Account Expires In
                         </span>
                       </div>
-                      <span className={`text-lg font-bold ${timeLeft < 5 * 60 * 1000 ? 'text-red-400' : 'text-[#98da27]'}`}>
+                      <span className={`text-base md:text-lg font-bold shrink-0 ${timeLeft < 5 * 60 * 1000 ? 'text-red-400' : 'text-[#98da27]'}`}>
                         {formatTimeLeft(timeLeft)}
                       </span>
                     </div>
@@ -499,11 +499,11 @@ function CheckoutContent() {
                     </div>
                     <div className="bg-[#111413] border border-[#e9c176]/30 rounded-lg p-4">
                       <p className="text-xs text-[#8c928d] mb-1">Account Number</p>
-                      <div className="flex items-center justify-between">
-                        <p className="text-2xl font-bold text-[#e9c176] tracking-widest">{paymentDetails.accountNumber}</p>
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="text-lg md:text-2xl font-bold text-[#e9c176] tracking-widest truncate">{paymentDetails.accountNumber}</p>
                         <button
                           onClick={() => handleCopy(paymentDetails.accountNumber, 'account')}
-                          className="flex items-center gap-1 text-[#98da27] hover:text-[#b2f746] transition text-sm font-semibold cursor-pointer"
+                          className="shrink-0 flex items-center gap-1 text-[#98da27] hover:text-[#b2f746] transition text-sm font-semibold cursor-pointer"
                         >
                           {copiedField === 'account' ? (
                             <CheckCircle className="w-4 h-4" />
