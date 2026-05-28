@@ -121,11 +121,6 @@ export default function RootLayout({
         {/* Preconnect for performance (Core Web Vitals) */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://sdk.monnify.com" />
-        <link rel="preconnect" href="https://sdk.monnify.com" />
-        
-        {/* Monnify SDK - loaded globally so it's ready on the checkout page */}
-        <script src="https://sdk.monnify.com/plugin/monnify.js" />
         
         {/* JSON-LD Structured Data - WebSite Schema */}
         <script

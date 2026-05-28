@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import CheckoutContent from './checkout-content'
+import CheckoutPage from './checkout-content'
 
 const siteUrl = 'https://drdanielochi.com'
 
@@ -21,5 +21,5 @@ export const metadata: Metadata = {
 }
 
 export default function Checkout() {
-  return <CheckoutContent />
+  return <CheckoutPage />
 }

@@ -6,18 +6,6 @@ const MONNIFY_BASE_URL = process.env.NODE_ENV === 'production'
   ? 'https://api.monnify.com'
   : 'https://sandbox.monnify.com'
 
-interface VerifyRequest {
-  transactionReference: string
-  paymentReference: string
-  email: string
-  quantity: number
-  format: string
-  amount: number
-}
-
-/**
- * Get Monnify access token using API Key and Secret Key (Basic Auth).
- */
 async function getAccessToken(): Promise<string> {
   const credentials = Buffer.from(`${MONNIFY_API_KEY}:${MONNIFY_SECRET_KEY}`).toString('base64')
 
@@ -39,9 +27,6 @@ async function getAccessToken(): Promise<string> {
   return data.responseBody.accessToken
 }
 
-/**
- * Verify a transaction on Monnify using the payment reference.
- */
 async function verifyTransaction(paymentReference: string, accessToken: string) {
   const response = await fetch(
     `${MONNIFY_BASE_URL}/api/v1/merchant/transactions/query?paymentReference=${paymentReference}`,
@@ -65,10 +50,10 @@ async function verifyTransaction(paymentReference: string, accessToken: string) 
 
 export async function POST(request: Request) {
   try {
-    const body: VerifyRequest = await request.json()
+    const body = await request.json()
     const { transactionReference, paymentReference, email, quantity, format, amount } = body
 
-    if (!transactionReference || !paymentReference || !email) {
+    if (!paymentReference || !email) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -83,42 +68,39 @@ export async function POST(request: Request) {
       )
     }
 
-    // Get access token and verify the transaction
     const accessToken = await getAccessToken()
     const transaction = await verifyTransaction(paymentReference, accessToken)
 
-    // Check if transaction was completed successfully
+    // Transaction exists but hasn't been paid yet — return gracefully
     if (transaction.paymentStatus !== 'PAID') {
-      return NextResponse.json(
-        { error: 'Transaction was not completed' },
-        { status: 400 }
-      )
+      return NextResponse.json({
+        success: false,
+        paid: false,
+        message: 'Payment not yet received',
+        status: transaction.paymentStatus,
+      })
     }
 
     // Verify the amount matches
     const expectedAmount = amount
     if (transaction.amountPaid !== expectedAmount) {
-      return NextResponse.json(
-        { error: 'Amount mismatch detected' },
-        { status: 400 }
-      )
+      return NextResponse.json({
+        success: false,
+        paid: false,
+        message: 'Amount mismatch detected',
+      })
     }
 
     // Verify the email matches
     if (transaction.customerEmail?.toLowerCase() !== email.toLowerCase()) {
-      return NextResponse.json(
-        { error: 'Email mismatch detected' },
-        { status: 400 }
-      )
+      return NextResponse.json({
+        success: false,
+        paid: false,
+        message: 'Email mismatch detected',
+      })
     }
 
-    // === Transaction is verified! ===
-    // Here you can:
-    // - Save the order to a database
-    // - Send a confirmation email
-    // - Grant access to digital content
-    // - Update inventory
-
+    // === Payment confirmed! ===
     console.log('Payment verified successfully:', {
       transactionReference,
       paymentReference,
@@ -126,12 +108,12 @@ export async function POST(request: Request) {
       quantity,
       format,
       amount,
-      monnifyStatus: transaction.paymentStatus,
       paidAt: transaction.paidOn,
     })
 
     return NextResponse.json({
       success: true,
+      paid: true,
       message: 'Payment verified successfully',
       data: {
         transactionReference,
@@ -144,9 +126,11 @@ export async function POST(request: Request) {
     })
   } catch (error) {
     console.error('Payment verification error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    // Return 200 to avoid triggering error UI on the frontend
+    return NextResponse.json({
+      success: false,
+      paid: false,
+      message: 'Verification check failed, will retry',
+    })
   }
 }
