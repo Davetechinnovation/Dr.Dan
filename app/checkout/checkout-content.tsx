@@ -38,6 +38,7 @@ function CheckoutContent() {
   const [timeLeft, setTimeLeft] = useState(40 * 60 * 1000) // 40 minutes
   const [error, setError] = useState('')
   const [showWhatsAppConfirm, setShowWhatsAppConfirm] = useState(false)
+  const [showExpiredModal, setShowExpiredModal] = useState(false)
   const [pollCount, setPollCount] = useState(0)
   const [isTestMode, setIsTestMode] = useState(false)
 
@@ -113,6 +114,9 @@ function CheckoutContent() {
         const next = prev - 1000
         if (next <= 0) {
           clearInterval(interval)
+          // Clear session so user can request a fresh account
+          sessionStorage.removeItem('uots_checkout')
+          setShowExpiredModal(true)
           return 0
         }
         return next
@@ -594,6 +598,36 @@ function CheckoutContent() {
           </div>
         </div>
       </div>
+
+      {/* Account Expired Modal */}
+      {showExpiredModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
+          <div className="bg-[#1d201f] border border-[#e9c176]/50 rounded-lg p-8 md:p-10 max-w-md w-full text-center shadow-2xl">
+            <div className="w-16 h-16 rounded-full bg-red-900/20 flex items-center justify-center mx-auto mb-6">
+              <Clock className="w-8 h-8 text-red-400" />
+            </div>
+            <h2 className="font-display text-3xl font-medium text-white mb-4">Account Expired</h2>
+            <p className="text-[#c2c8c2] text-base mb-2">
+              The payment account is no longer valid.
+            </p>
+            <p className="text-[#c2c8c2] text-sm mb-8">
+              Please request a fresh account to complete your purchase.
+            </p>
+            <button
+              onClick={() => {
+                setShowExpiredModal(false)
+                setStep('form')
+                setPaymentDetails(null)
+                setTimeLeft(40 * 60 * 1000)
+                sessionStorage.removeItem('uots_checkout')
+              }}
+              className="w-full bg-[#98da27] text-[#0a1410] font-semibold py-4 rounded-lg hover:bg-[#b2f746] transition duration-300 cursor-pointer"
+            >
+              Request New Account
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* WhatsApp Confirmation Dialog (for Hardcopy) */}
       {showWhatsAppConfirm && (

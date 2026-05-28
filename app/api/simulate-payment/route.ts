@@ -5,10 +5,11 @@ import { NextResponse } from 'next/server'
  * In production, real payments come via Monnify webhook or polling.
  */
 export async function POST(request: Request) {
-  // Only allow in non-production environments
-  if (process.env.NODE_ENV === 'production') {
+  // Only allow when using test Monnify keys
+  const isTestKey = process.env.NEXT_PUBLIC_MONNIFY_API_KEY?.startsWith('MK_TEST')
+  if (!isTestKey) {
     return NextResponse.json(
-      { error: 'Not available in production' },
+      { error: 'Not available with production keys' },
       { status: 403 }
     )
   }
